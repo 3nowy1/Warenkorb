@@ -1,13 +1,19 @@
 version: '3'
 
 services:
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres
     environment:
       POSTGRES_DB: warenkorb
       # You should definitely change the password in production
-      POSTGRES_PASSWORD: asgoodasnew
+      POSTGRES_PASSWORD: passwort
       POSTGRES_USER: bm
     volumes:
       - database_data:/var/lib/postgresql/data:rw
