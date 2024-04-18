@@ -8,14 +8,18 @@ class CartDTO
 
     private array $items;
 
+    /**
+     * @param string $cartId
+     */
+    public function __construct(string $cartId)
+    {
+        $this->cartId = $cartId;
+    }
+
+
     public function getCartId(): string
     {
         return $this->cartId;
-    }
-
-    public function setCartId(string $cartId): void
-    {
-        $this->cartId = $cartId;
     }
 
     public function getItems(): array

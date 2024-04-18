@@ -18,11 +18,17 @@ class ShoppingCartService
     {
         $shoppingCart = new ShoppingCart();
         $shoppingCart->setItems([['product_id' => $cartItemDTO->getProductId(), 'quantity' => $cartItemDTO->getQuantity()]]);
-        $savedCart = $this->shoppingCartRepository->saveNewCart($shoppingCart);
+        $savedCart = $this->shoppingCartRepository->saveShoppingCart($shoppingCart);
 
-        $cartDto = new CartDTO();
-        $cartDto->setCartId($savedCart->getId());
+        return new CartDTO($savedCart->getId());
+    }
 
-        return $cartDto;
+    public function addItemToShoppingCart(CartDTO $cartDTO, CartItemDTO $cartItemDTO): CartDTO
+    {
+        $shoppingCart = $this->shoppingCartRepository->findOneBy(['id' => $cartDTO->getCartId()]);
+        $shoppingCart->setItems([['product_id' => $cartItemDTO->getProductId(), 'quantity' => $cartItemDTO->getQuantity()]]);
+        $savedCart = $this->shoppingCartRepository->saveShoppingCart($shoppingCart);
+
+        return new CartDTO($savedCart->getId());
     }
 }

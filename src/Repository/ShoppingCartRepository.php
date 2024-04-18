@@ -22,7 +22,7 @@ class ShoppingCartRepository extends ServiceEntityRepository
         parent::__construct($registry, ShoppingCart::class);
     }
 
-    public function saveNewCart(ShoppingCart $shoppingCart): ShoppingCart
+    public function saveShoppingCart(ShoppingCart $shoppingCart): ShoppingCart
     {
         $em = $this->getEntityManager();
         $em->persist($shoppingCart);

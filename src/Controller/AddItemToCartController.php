@@ -19,7 +19,7 @@ class AddItemToCartController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/api/carts', name: 'api_carts', methods: ['POST'])]
+    #[Route('/create/cart', name: 'api_new_cart', methods: ['POST'])]
     public function createNewCart(Request $request): JsonResponse
     {
         $cartItem = new CartItemDTO(...$request->toArray());
@@ -33,21 +33,18 @@ class AddItemToCartController extends AbstractController
         return new JsonResponse(['cartId' => $shoppingCart->getCartId()]);
     }
 
-    #[Route('/api/carts/{cartId}/products', name: 'api_carts_products', methods: ['POST'])]
-    public function addItemToCart(#[MapRequestPayload] CartDTO $cartItem): JsonResponse
+    #[Route('/add/cart/item/{cartId}', name: 'api_add_products', methods: ['POST'])]
+    public function addItemToCart(Request $request, string $cartId): JsonResponse
     {
-        if(empty($productId) || empty($quantity))
+        $cartItem = new CartItemDTO(...$request->toArray());
+        if(empty($cartItem->getProductId()) || empty($cartItem->getQuantity()))
         {
             return new JsonResponse('please pick a product and quantity first', 400);
         }
 
-        $shoppingCart = new ShoppingCart();
-        $shoppingCart->setItems(['product_id' => $productId, 'quantity' => $quantity]);
+        $cardDTO = new CartDTO($cartId);
+        $shoppingCart = $this->shoppingCartService->addItemToShoppingCart($cardDTO, $cartItem);
 
-        $this->entityManager->persist($shoppingCart);
-
-        $this->entityManager->flush();
-
-        return new JsonResponse('Saved new product with id '.$shoppingCart->getId(), 200);
+        return new JsonResponse(['cartId' => $shoppingCart->getCartId()]);
     }
 }
