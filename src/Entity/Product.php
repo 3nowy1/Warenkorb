@@ -16,12 +16,41 @@ class Product
         ORM\CustomIdGenerator(UuidGenerator::class),
         ORM\Column(type: Types::STRING)
     ]
-    private int $id;
+    private string $id;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
-    #[ORM\Column(type: Types::FLOAT, length: 20)]
+    #[ORM\Column(type: Types::STRING, length: 20)]
     private string $price;
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getPrice(): string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): void
+    {
+        $this->price = $price;
+    }
 }

@@ -18,9 +18,6 @@ class ShoppingCart
     ]
     private string $id;
 
-    #[ORM\Column(type: Types::STRING, length: 36)]
-    private string $userId;
-
     #[ORM\Column(type: TYPES::JSON, nullable: true)]
     private ?array $items = null;
 
@@ -32,16 +29,6 @@ class ShoppingCart
     public function setId(string $id): void
     {
         $this->id = $id;
-    }
-
-    public function getUserId(): string
-    {
-        return $this->userId;
-    }
-
-    public function setUserId(string $userId): void
-    {
-        $this->userId = $userId;
     }
 
     public function getItems(): ?array
