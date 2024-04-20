@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\CartDTO;
 use App\DTO\CartItemDTO;
 use App\Services\ShoppingCartService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,16 +18,18 @@ class EditItemInCartController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/edit/cart/item', name: 'api_edit_cart', methods: ['PATCH'])]
-    public function editCartItem(Request $request): JsonResponse
+    #[Route('/edit/cart/item/{cartId}', name: 'api_edit_cart_item', methods: ['PATCH'])]
+    public function addItemToCart(Request $request, string $cartId): JsonResponse
     {
+        $this->createCart();
         $cartItem = new CartItemDTO(...$request->toArray());
         if(empty($cartItem->getProductId()) || empty($cartItem->getQuantity()))
         {
             return new JsonResponse('please pick a product and quantity first', 400);
         }
 
-        $shoppingCart = $this->shoppingCartService->createNewShoppingCart($cartItem);
+        $cardDTO = new CartDTO($cartId);
+        $shoppingCart = $this->shoppingCartService->addItemToShoppingCart($cardDTO, $cartItem);
 
         return new JsonResponse(['cartId' => $shoppingCart->getCartId()]);
     }

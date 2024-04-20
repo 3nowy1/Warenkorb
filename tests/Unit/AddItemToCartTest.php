@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Tests\unit;
+namespace App\Tests\Unit;
 
-use App\Repository\ShoppingCartRepository;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
 class AddItemToCartTest extends TestCase
 {
-    protected function setUp(): void
-    {
-
-    }
     public function testCreateShoppingCartByAddingItem()
     {
         $response = $this->createShoppingCart();
