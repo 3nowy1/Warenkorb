@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\DTO\CartDTO;
 use App\DTO\CartItemDTO;
-use App\Entity\ShoppingCart;
 use App\Services\ShoppingCartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,10 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AddItemToCartController extends AbstractController
 {
-    public function __construct(EntityManagerInterface $entityManager, private ShoppingCartService $shoppingCartService)
-    {
-        $this->entityManager = $entityManager;
-    }
+    public function __construct(EntityManagerInterface $entityManager, private ShoppingCartService $shoppingCartService) {}
 
     #[Route('/create/cart', name: 'api_new_cart', methods: ['POST'])]
     public function createNewCart(Request $request): JsonResponse
@@ -30,7 +26,7 @@ class AddItemToCartController extends AbstractController
 
         $shoppingCart = $this->shoppingCartService->createNewShoppingCart($cartItem);
 
-        return new JsonResponse(['cartId' => $shoppingCart->getCartId()]);
+        return new JsonResponse(['shoppingCart' => $shoppingCart->toArray()]);
     }
 
     #[Route('/add/cart/item/{cartId}', name: 'api_add_products', methods: ['POST'])]
@@ -45,6 +41,6 @@ class AddItemToCartController extends AbstractController
         $cardDTO = new CartDTO($cartId);
         $shoppingCart = $this->shoppingCartService->addItemToShoppingCart($cardDTO, $cartItem);
 
-        return new JsonResponse(['cartId' => $shoppingCart->getCartId()]);
+        return new JsonResponse(['shoppingCart' => $shoppingCart->toArray()]);
     }
 }

@@ -6,7 +6,7 @@ class CartDTO
 {
     private string $cartId;
 
-    private array $items;
+    private array $items = [];
 
     /**
      * @param string $cartId
@@ -32,5 +32,11 @@ class CartDTO
         $this->items = $items;
     }
 
-
+    public function toArray(): array
+    {
+        return [
+            'cartId' => $this->cartId,
+            'items' => $this->items
+        ];
+    }
 }

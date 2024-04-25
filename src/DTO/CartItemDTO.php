@@ -15,4 +15,12 @@ class CartItemDTO
     {
         return $this->quantity;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'productId' => $this->productId,
+            'quantity' => $this->quantity
+        ];
+    }
 }

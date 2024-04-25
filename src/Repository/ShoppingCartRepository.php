@@ -31,13 +31,10 @@ class ShoppingCartRepository extends ServiceEntityRepository
         return $shoppingCart;
     }
 
-//    public function findOneBySomeField($value): ?ShoppingCart
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function removeShoppingCart(ShoppingCart $shoppingCart): void
+    {
+        $em = $this->getEntityManager();
+        $em->remove($shoppingCart);
+        $em->flush();
+    }
 }
