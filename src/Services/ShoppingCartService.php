@@ -6,8 +6,6 @@ use App\DTO\CartDTO;
 use App\DTO\CartItemDTO;
 use App\Entity\ShoppingCart;
 use App\Repository\ShoppingCartRepository;
-use Symfony\Component\HttpKernel\Log\Logger;
-use function PHPUnit\Framework\isInstanceOf;
 
 class ShoppingCartService
 {
@@ -38,9 +36,9 @@ class ShoppingCartService
     {
         $shoppingCart = $this->shoppingCartRepository->findOneBy(['id' => $cartId]);
         $shoppingCart->setItems([['productId' => $cartItemDTO->getProductId(), 'quantity' => $cartItemDTO->getQuantity()]]);
-        $savedCartEntity = $this->shoppingCartRepository->saveShoppingCart($shoppingCart);
+        $savedCart = $this->shoppingCartRepository->saveShoppingCart($shoppingCart);
 
-        return new CartDTO($savedCartEntity->getId());
+        return new CartDTO($savedCart->getId());
     }
 
     public function removeShoppingCartItem(string $cartId, string $productId): CartDTO
@@ -55,10 +53,10 @@ class ShoppingCartService
         }
 
         $shoppingCart->setItems($items);
-        $savedCartEntity = $this->shoppingCartRepository->saveShoppingCart($shoppingCart);
+        $savedCart = $this->shoppingCartRepository->saveShoppingCart($shoppingCart);
 
-        $savedCartDTO = new CartDTO($savedCartEntity->getId());
-        $savedCartDTO->setItems($savedCartEntity->getItems());
+        $savedCartDTO = new CartDTO($savedCart->getId());
+        $savedCartDTO->setItems($savedCart->getItems());
 
         return $savedCartDTO;
     }
